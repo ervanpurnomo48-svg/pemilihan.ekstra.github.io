@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Pendaftaran Ekskul - Maria Assumpta</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        /* Custom scrollbar styling untuk kenyamanan admin */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body id="body-wrapper" class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col transition-all duration-500">
+
+    <!-- NAVBAR UTAMA -->
+    <nav class="bg-slate-900 text-white shadow-xl sticky top-0 z-40 backdrop-blur-md bg-opacity-95 border-b border-slate-800">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div id="logo-badge" class="w-11 h-11 bg-white rounded-full flex items-center justify-center font-extrabold text-slate-900 shadow-inner overflow-hidden text-sm p-1 transition-all duration-300">
+                    MA
+                </div>
+                <div>
+                    <h1 id="nav-title-text" class="text-base md:text-lg font-black tracking-wider leading-none uppercase">SMP MARIA ASSUMPTA KLATEN</h1>
+                    <p id="nav-subtitle-text" class="text-[10px] md:text-xs text-blue-400 tracking-widest font-bold mt-0.5">School of Future Leaders</p>
+                </div>
+            </div>
+            <div>
+                <button onclick="bukaPanelAdmin()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-xl text-xs font-bold tracking-wide transition-all duration-200 shadow-md flex items-center space-x-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0" />
+                    </svg>
+                    <span class="hidden sm:inline">Kelola Website</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO HEADER SECTION -->
+    <header id="hero-banner" class="text-white py-14 px-4 text-center relative overflow-hidden transition-all duration-500 flex items-center justify-center min-h-[340px]">
+        <!-- Layer overlay gambar -->
+        <div id="hero-image-layer" class="absolute inset-0 bg-cover bg-center transition-all duration-300" style="background-image: none; opacity: 0;"></div>
+        <!-- Tint gelab agar teks tetap terbaca tajam -->
+        <div class="absolute inset-0 bg-slate-950/60 z-0"></div>
+        
+        <div class="max-w-3xl mx-auto relative z-10">
+            <span class="bg-blue-500/20 text-blue-300 border border-blue-500/40 px-3 py-1 rounded-full text-xs font-black tracking-wider uppercase mb-3 inline-block">
+                Tahun Pelajaran Baru
+            </span>
+            <h2 id="hero-title-text" class="text-2xl md:text-4xl font-extrabold mb-4 tracking-tight leading-tight uppercase">Pendaftaran Kegiatan Ekstrakurikuler</h2>
+            <p id="hero-desc-text" class="text-xs md:text-sm text-slate-200 max-w-xl mx-auto leading-relaxed">
+                Persiapkan potensimu sejak dini. Cari minatmu, tentukan bakatmu, dan daftarkan diri secara langsung ke form pilihanmu.
+            </p>
+        </div>
+    </header>
+
+    <!-- BADAN UTAMA DAN LIST KARTU EKSKUL -->
+    <main class="container mx-auto py-10 px-4 flex-grow max-w-7xl">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-6 border-b pb-4 border-slate-200/80 gap-4">
+            <div>
+                <h3 class="text-lg font-bold text-slate-800">Daftar Pilihan Ekstrakurikuler</h3>
+                <p class="text-xs text-slate-500">Silakan klik tombol pilihan ekstra Anda untuk validasi data pendaftaran.</p>
+            </div>
+            <div class="flex items-center space-x-3 bg-white border border-slate-200/80 p-3 rounded-2xl shadow-sm">
+                <span class="text-xs text-slate-500 font-bold">Total Tersedia:</span>
+                <span id="stat-total" class="font-black text-blue-600 text-sm">0</span>
+            </div>
+        </div>
+
+        <div id="ekskul-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Kartu dinamis terisi oleh JS -->
+        </div>
+
+        <!-- Tampilan kosong jika tidak ada ekskul aktif -->
+        <div id="empty-state" class="hidden text-center py-16 bg-white rounded-3xl border border-dashed border-slate-300 max-w-md mx-auto mt-6">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-slate-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0a2 2 0 01-2 2H6a2 2 0 01-2-2m16 0V9a2 2 0 00-2-2H6a2 2 0 00-2 2v4.586a1 1 0 01-.293.707l-2 2A1 1 0 013 18V7" />
+            </svg>
+            <h4 class="font-bold text-slate-700 mb-1 text-sm">Belum Ada Ekstrakurikuler</h4>
+            <p class="text-xs text-slate-400 px-6">Silakan masuk ke Panel Admin untuk mematangkan data ekstrakurikuler.</p>
+        </div>
+    </main>
+
+    <!-- FOOTER INFORMASI -->
+    <footer class="bg-white border-t border-slate-200/80 py-6 text-center text-xs text-slate-500 mt-10">
+        <div class="container mx-auto px-4 space-y-1">
+            <p id="footer-branding-text" class="font-extrabold text-slate-700">© 2026 SMP MARIA ASSUMPTA KLATEN</p>
+            <p class="text-[10px] text-slate-400">Website Terintegrasi Google Form & Konsultan Chatbot AI</p>
+        </div>
+    </footer>
+
+    <!-- MODAL FORM IDENTITAS SISWA -->
+    <div id="identitas-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50 transition-all duration-300">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="identitas-modal-card">
+            <div class="flex justify-between items-center mb-4 border-b pb-2">
+                <h3 class="text-base font-bold text-slate-800">Lengkapi Identitas Diri</h3>
+                <button onclick="tutupIdentitasModal()" class="text-slate-400 hover:text-slate-600 text-lg font-bold leading-none">&times;</button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Ekstrakurikuler Pilihan</label>
+                    <input type="text" id="siswa-ekskul" readonly class="w-full mt-1 p-2.5 bg-blue-50 border border-blue-100 rounded-xl text-xs font-bold text-blue-900 outline-none select-none">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Nama Lengkap Siswa</label>
+                    <input type="text" id="siswa-nama" placeholder="Masukkan nama lengkap Anda..." class="w-full mt-1 p-2.5 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-blue-500 outline-none bg-slate-50 focus:bg-white transition">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Pilih Ruang Kelas</label>
+                    <select id="siswa-kelas" class="w-full mt-1 p-2.5 border border-slate-200 rounded-xl text-xs font-medium focus:ring-2 focus:ring-blue-500 outline-none bg-white transition">
+                        <option value="">-- Silakan Pilih Kelas --</option>
+                        <optgroup label="Kelas VII">
+                            <option value="7A">7A</option>
+                            <option value="7B">7B</option>
+                            <option value="7C">7C</option>
+                        </optgroup>
+                        <optgroup label="Kelas VIII">
+                            <option value="8A">8A</option>
+                            <option value="8B">8B</option>
+                            <option value="8C">8C</option>
+                        </optgroup>
+                        <optgroup label="Kelas IX">
+                            <option value="9A">9A</option>
+                            <option value="9B">9B</option>
+                            <option value="9C">9C</option>
+                            <option value="9D">9D</option>
+                        </optgroup>
+                    </select>
+                </div>
+                
+                <div class="bg-indigo-50 border border-indigo-100 text-indigo-900 text-[10px] p-3 rounded-xl leading-relaxed">
+                    Data Anda akan direkam pada Log Pendaftar Admin sebagai verifikasi, kemudian tab baru akan otomatis terbuka menuju lembar <strong>Google Form</strong> pilihan Anda.
+                </div>
+
+                <div class="flex space-x-3 pt-2">
+                    <button onclick="tutupIdentitasModal()" class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-600 py-2.5 rounded-xl font-bold text-xs transition">Batal</button>
+                    <button onclick="prosesLanjutGoogleForm()" class="w-2/3 bg-blue-900 hover:bg-blue-800 text-white py-2.5 rounded-xl font-bold text-xs transition shadow flex items-center justify-center space-x-1">
+                        <span>Lanjut Mengisi Form</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL MASUK ADMIN -->
+    <div id="auth-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50 transition-all duration-300">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl transform scale-95 opacity-0 transition-all duration-300" id="auth-modal-card">
+            <div class="text-center mb-6">
+                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3 text-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                </div>
+                <h3 class="text-base font-bold text-slate-800">Verifikasi Sandi Admin</h3>
+                <p class="text-[11px] text-slate-400 mt-1">Gunakan kata sandi default untuk masuk ke dasbor pengaturan</p>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <input type="password" id="admin-password" placeholder="Sandi admin..." class="w-full p-3 border border-slate-200 rounded-xl text-center text-xs font-bold tracking-widest focus:ring-2 focus:ring-blue-500 outline-none bg-slate-50 transition">
+                </div>
+                <div class="flex space-x-3">
+                    <button onclick="tutupAuthModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-600 py-2.5 rounded-xl font-bold text-xs transition">Kembali</button>
+                    <button onclick="verifikasiSandi()" class="w-1/2 bg-blue-900 hover:bg-blue-800 text-white py-2.5 rounded-xl font-bold text-xs transition shadow-md">Verifikasi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DASHBOARD ADMIN UTAMA -->
+    <div id="admin-panel-modal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50 transition-all duration-300">
+        <div class="bg-white rounded-3xl max-w-5xl w-full p-6 shadow-2xl flex flex-col md:flex-row gap-6 max-h-[92vh] overflow-hidden" id="admin-panel-card">
+            
+            <!-- Sidebar Tab Menu Admin (Kiri) -->
+            <div class="w-full md:w-3/12 flex flex-row md:flex-col overflow-x-auto md:overflow-x-visible md:border-r border-slate-100 pb-3 md:pb-0 md:pr-4 shrink-0 gap-2">
+                <div class="flex items-center space-x-2.5 pb-4 mb-2 hidden md:flex border-b border-slate-100">
+                    <div class="w-8 h-8 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center font-bold text-xs">A</div>
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-700 leading-none">Pusat Dasbor</h4>
+                        <span class="text-[9px] text-slate-400">SMP Maria Assumpta</span>
+                    </div>
+                </div>
+                <button onclick="pindahTabAdmin('ekskul')" id="tab-ekskul" class="tab-btn-active w-full text-left py-2 px-3 rounded-xl text-[11px] font-bold transition flex items-center space-x-2 shrink-0">
+                    <span>⚽ Kelola Ekskul</span>
+                </button>
+                <button onclick="pindahTabAdmin('branding')" id="tab-branding" class="tab-btn-inactive w-full text-left py-2 px-3 rounded-xl text-[11px] font-bold transition flex items-center space-x-2 shrink-0">
+                    <span>🎨 Desain & Hero</span>
+                </button>
+                <button onclick="pindahTabAdmin('pendaftar')" id="tab-pendaftar" class="tab-btn-inactive w-full text-left py-2 px-3 rounded-xl text-[11px] font-bold transition flex items-center space-x-2 shrink-0">
+                    <span>📊 Rekap Pendaftar</span>
+                </button>
+                <button onclick="pindahTabAdmin('api-key')" id="tab-api-key" class="tab-btn-inactive w-full text-left py-2 px-3 rounded-xl text-[11px] font-bold transition flex items-center space-x-2 shrink-0">
+                    <span>🗝️ Konfigurasi API</span>
+                </button>
+            </div>
+
+            <!-- Area Isi Menu Tab (Kanan) -->
+            <div class="flex-grow overflow-hidden flex flex-col">
+                <div class="flex justify-between items-center mb-4 border-b border-slate-100 pb-2 shrink-0">
+                    <h4 id="admin-title-panel" class="text-sm font-black text-slate-700 uppercase tracking-wider">Dasbor Kelola</h4>
+                    <button onclick="tutupPanelAdmin()" class="text-slate-400 hover:text-slate-600 text-xl font-bold leading-none">&times;</button>
+                </div>
+
+                <!-- CONTENT TAB 1: KELOLA EKSKUL -->
+                <div id="tab-content-ekskul" class="flex flex-col h-full overflow-hidden space-y-4">
+                    <!-- Form Input/Edit Ekskul -->
+                    <div class="bg-slate-50 border border-slate-200/80 p-4 rounded-2xl">
+                        <div class="flex justify-between items-center mb-3">
+                            <h5 id="ekskul-form-mode" class="text-xs font-bold text-slate-700 uppercase tracking-wide">Tambah Ekstrakurikuler Baru</h5>
+                            <button onclick="resetEkskulForm()" id="btn-cancel-edit" class="hidden text-[10px] text-blue-600 hover:underline">Mode Tambah</button>
+                        </div>
+                        <input type="hidden" id="edit-id">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Nama Ekskul</label>
+                                <input type="text" id="input-nama" placeholder="Contoh: Ansambel Musik" class="w-full p-2 border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Link Google Form</label>
+                                <input type="url" id="input-link" placeholder="https://forms.gle/..." class="w-full p-2 border border-slate-300 rounded-lg text-xs font-medium text-blue-600 focus:ring-2 focus:ring-blue-500 outline-none bg-white font-mono">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Batas Responden (Kuota)</label>
+                                <input type="number" id="input-kuota" min="0" placeholder="0 = Tak Terbatas" class="w-full p-2 border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                            </div>
+                        </div>
+                        <div class="mb-3 relative">
+                            <div class="flex justify-between items-center mb-1">
+                                <label class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Deskripsi Kegiatan</label>
+                                <button type="button" onclick="buatDeskripsiDenganAI()" class="text-[9px] bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold px-2 py-0.5 rounded border border-indigo-200 flex items-center gap-1 transition">
+                                    <span>✨ Buat dengan AI Gemini</span>
+                                </button>
+                            </div>
+                            <textarea id="input-deskripsi" rows="2" placeholder="Tuliskan keterangan singkat keunggulan ekskul ini, atau klik tombol diatas..." class="w-full p-2 border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 outline-none bg-white"></textarea>
+                        </div>
+                        <button onclick="simpanEkskul()" id="btn-simpan-ekskul" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-xl text-xs font-bold transition shadow-sm flex items-center justify-center space-x-2">
+                            <span>Simpan Ekskul</span>
+                        </button>
+                    </div>
+
+                    <!-- List Kelola Ekskul Aktif -->
+                    <div class="flex-grow overflow-y-auto pr-1">
+                        <h5 class="text-xs font-bold text-slate-600 uppercase tracking-wider mb-2">Daftar Aktif Saat Ini</h5>
+                        <div id="admin-ekskul-list" class="space-y-2">
+                            <!-- list item -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CONTENT TAB 2: BRANDING & DESAIN -->
+                <div id="tab-content-branding" class="hidden flex-col h-full overflow-y-auto pr-1 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-slate-50 border border-slate-200/80 p-4 rounded-2xl">
+                        <div class="space-y-3">
+                            <h5 class="text-xs font-black text-slate-700 uppercase tracking-wider">Teks & Logo Navbar</h5>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Logo Inisial / Emoji</label>
+                                <input type="text" id="brand-logo" class="w-full mt-1 p-2 border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Nama Sekolah Navbar</label>
+                                <input type="text" id="brand-title" class="w-full mt-1 p-2 border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Slogan Subtitle</label>
+                                <input type="text" id="brand-subtitle" class="w-full mt-1 p-2 border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                            </div>
+                        </div>
+
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center">
+                                <h5 class="text-xs font-black text-slate-700 uppercase tracking-wider">Banner Utama (Hero)</h5>
+                                <button type="button" onclick="buatSloganDenganAI()" class="text-[9px] bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold px-1.5 py-0.5 rounded border border-indigo-200 flex items-center gap-1 transition">
+                                    <span>✨ Buat dengan AI</span>
+                                </button>
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Judul Banner Utama</label>
+                                <input type="text" id="brand-hero-title" class="w-full mt-1 p-2 border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Keterangan Deskripsi</label>
+                                <textarea id="brand-hero-desc" rows="2" class="w-full mt-1 p-2 border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 outline-none bg-white"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PENGATURAN LATAR BELAKANG & GAMBAR HERO -->
+                    <div class="bg-slate-50 border border-slate-200/80 p-4 rounded-2xl space-y-4">
+                        <h5 class="text-xs font-black text-slate-700 uppercase tracking-wider">Latar Belakang & Visual Hero</h5>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Tipe Background</label>
+                                <select id="brand-bg-type" onchange="toggleBackgroundInputs()" class="w-full mt-1 p-2 border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 bg-white">
+                                    <option value="solid">Satu Warna Solid</option>
+                                    <option value="gradient">Warna Gradasi (Estetik)</option>
+                                </select>
+                            </div>
+                            <div id="col-picker-1">
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Warna Utama</label>
+                                <div class="flex items-center space-x-1.5 mt-1">
+                                    <input type="color" id="brand-color-1" class="p-1 h-8 w-12 border border-slate-300 rounded-lg bg-white">
+                                    <input type="text" id="brand-color-1-hex" class="w-full p-1.5 border border-slate-300 rounded-lg text-xs font-mono uppercase bg-white" placeholder="#FFFFFF">
+                                </div>
+                            </div>
+                            <div id="col-picker-2">
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Warna Gradasi Pasangan</label>
+                                <div class="flex items-center space-x-1.5 mt-1">
+                                    <input type="color" id="brand-color-2" class="p-1 h-8 w-12 border border-slate-300 rounded-lg bg-white">
+                                    <input type="text" id="brand-color-2-hex" class="w-full p-1.5 border border-slate-300 rounded-lg text-xs font-mono uppercase bg-white" placeholder="#E2E8F0">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pengaturan Gambar Hero -->
+                        <div class="border-t border-slate-200 pt-3 space-y-3">
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Gambar Utama Banner Hero</label>
+                            
+                            <div class="flex items-center space-x-2">
+                                <label class="flex flex-col items-center justify-center border border-dashed border-slate-300 hover:border-blue-500 bg-white p-2.5 rounded-xl cursor-pointer text-center text-xs transition min-w-[120px]">
+                                    <span class="text-[10px] font-bold text-blue-600">📂 Unggah Gambar</span>
+                                    <input type="file" id="hero-img-upload" accept="image/*" class="hidden" onchange="tanganiUploadGambarHero(event)">
+                                </label>
+                                <div class="text-xs text-slate-400">Atau masukkan URL gambar langsung:</div>
+                                <input type="url" id="hero-img-url" placeholder="https://..." class="flex-grow p-2 border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                            </div>
+
+                            <!-- Slider Tuning Posisi/Skala Gambar Hero -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-white border border-slate-150 p-3 rounded-xl">
+                                <div>
+                                    <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">Skala Gambar: <span id="val-scale" class="font-mono text-blue-600">1.0</span></label>
+                                    <input type="range" id="slider-scale" min="0.5" max="3.0" step="0.1" value="1.0" class="w-full">
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">Posisi Vertikal (Y): <span id="val-ypos" class="font-mono text-blue-600">0px</span></label>
+                                    <input type="range" id="slider-ypos" min="-150" max="150" step="5" value="0" class="w-full">
+                                </div>
+                                <div>
+                                    <label class="block text-[9px] font-bold text-slate-500 uppercase tracking-wider mb-1">Transparansi: <span id="val-opacity" class="font-mono text-blue-600">1.0</span></label>
+                                    <input type="range" id="slider-opacity" min="0.1" max="1.0" step="0.1" value="1.0" class="w-full">
+                                </div>
+                            </div>
+                        </div>
+
+                        <button onclick="simpanBrandingDesain()" class="w-full bg-blue-900 hover:bg-blue-800 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-md flex items-center justify-center space-x-2">
+                            <span>Terapkan Seluruh Desain & Latar</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CONTENT TAB 3: REKAP PENDAFTAR -->
+                <div id="tab-content-pendaftar" class="hidden flex-col h-full overflow-hidden space-y-3">
+                    <div class="flex flex-col sm:flex-row justify-between sm:items-center bg-slate-50 border border-slate-200/80 p-3 rounded-2xl gap-3 shrink-0">
+                        <div>
+                            <h5 class="text-xs font-black text-slate-700 uppercase tracking-wider leading-none">Database Klik Responden</h5>
+                            <span class="text-[9px] text-slate-400">Total data masuk pada browser ini: <span id="pendaftar-count" class="font-bold text-blue-600">0</span> baris</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="analisisTrenDenganAI()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition flex items-center gap-1 shadow-sm">
+                                <span>🧠 Analisis Tren AI</span>
+                            </button>
+                            <button onclick="unduhRekapCSV()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition flex items-center gap-1 shadow-sm">
+                                <span>📥 Ekspor CSV (Excel)</span>
+                            </button>
+                            <button onclick="hapusSemuaPendaftar()" class="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition shadow-sm">
+                                Bersihkan Log
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tabel Log Pendaftar -->
+                    <div class="flex-grow overflow-auto border border-slate-150 rounded-2xl bg-white">
+                        <table class="w-full text-left text-xs border-collapse min-w-[500px]">
+                            <thead class="bg-slate-50 sticky top-0 font-bold border-b border-slate-150 text-slate-500 uppercase text-[9px] tracking-wider">
+                                <tr>
+                                    <th class="p-3">Waktu</th>
+                                    <th class="p-3">Nama Lengkap</th>
+                                    <th class="p-3">Kelas</th>
+                                    <th class="p-3">Ekskul Pilihan</th>
+                                    <th class="p-3 text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pendaftar-table-body" class="divide-y divide-slate-100 font-medium text-slate-600">
+                                <!-- item pendaftar -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- CONTENT TAB 4: API KEY CONFIG -->
+                <div id="tab-content-api-key" class="hidden flex-col h-full space-y-4">
+                    <div class="bg-slate-50 border border-slate-200/80 p-4 rounded-2xl space-y-3">
+                        <h5 class="text-xs font-black text-slate-700 uppercase tracking-wider">Konektivitas Gemini AI</h5>
+                        <p class="text-[11px] text-slate-500 leading-relaxed">
+                            Secara bawaan, asisten AI kustomisasi, pembentuk slogan, deskripsi, dan chatbot sudah <strong>otomatis terhubung secara terintegrasi</strong> melalui kunci internal platform kami. Namun, apabila Anda ingin menggunakan API key personal Anda untuk mempercepat respon, Anda dapat mengisinya di bawah ini.
+                        </p>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider">Gemini API Key (Opsional)</label>
+                            <input type="password" id="cfg-api-key" placeholder="AIZA...." class="w-full mt-1.5 p-2.5 border border-slate-300 rounded-lg text-xs font-mono focus:ring-2 focus:ring-blue-500 outline-none bg-white">
+                        </div>
+                        <button onclick="simpanApiKey()" class="w-full bg-blue-905 hover:bg-blue-800 bg-blue-900 text-white py-2 rounded-xl text-xs font-bold transition shadow-md">
+                            Simpan Kunci API
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- WIDGET CHATBOT KONSELOR AI -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <!-- Kotak Chat (Tersembunyi secara default) -->
+        <div id="chat-window" class="bg-white rounded-3xl shadow-2xl border border-slate-200 w-[330px] sm:w-[360px] h-[450px] flex flex-col overflow-hidden mb-3 hidden transform scale-95 opacity-0 origin-bottom-right transition-all duration-300">
+            <!-- Header Chat -->
+            <div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white p-4 flex items-center justify-between shadow-md">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center font-bold text-xs">✨</div>
+                    <div>
+                        <h4 class="text-xs font-extrabold leading-none tracking-wide">Konselor Ekskul MA</h4>
+                        <span class="text-[9px] text-blue-300">Asisten Konsultasi Bakat & Minat</span>
+                    </div>
+                </div>
+                <button onclick="toggleChatbot()" class="text-white/60 hover:text-white text-lg font-bold leading-none">&times;</button>
+            </div>
+
+            <!-- Area Percakapan -->
+            <div id="chat-messages" class="flex-grow overflow-y-auto p-4 space-y-3 bg-slate-50/50 text-[11px] leading-relaxed">
+                <!-- Pesan pembuka dari AI -->
+                <div class="flex flex-col items-start max-w-[85%] bg-white border border-slate-100 p-3 rounded-2xl rounded-tl-none text-slate-700 shadow-sm">
+                    Halo siswa-siswi hebat Maria Assumpta! Saya adalah Konselor Ekskul AI. Apakah kamu masih bingung ingin memilih ekstrakurikuler apa tahun ini? 
+                    <br><br>
+                    Tuliskan hobi, kegemaran, bakat, atau apa saja aktivitas yang kamu sukai. Saya akan menganalisis dan memberikan rekomendasi terbaik berdasarkan daftar ekskul aktif di sekolah kita saat ini!
+                </div>
+            </div>
+
+            <!-- Form input kirim pesan -->
+            <div class="p-2 border-t border-slate-100 bg-white flex items-center space-x-1">
+                <input type="text" id="chat-input" placeholder="Ketik hobi atau kegemaranmu di sini..." onkeypress="tanganiEnterChat(event)" class="flex-grow p-2 border border-slate-200 rounded-xl text-[11px] focus:ring-2 focus:ring-blue-500 outline-none">
+                <button onclick="kirimPesanChat()" class="bg-blue-900 hover:bg-blue-800 text-white p-2 rounded-xl transition shadow flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tombol Pemicu Utama Chatbot -->
+        <button onclick="toggleChatbot()" class="bg-gradient-to-r from-blue-900 to-indigo-900 hover:from-blue-800 hover:to-indigo-800 text-white p-3.5 rounded-full shadow-2xl hover:scale-105 transition-all flex items-center space-x-2 border border-blue-800 relative group">
+            <span class="absolute top-0 right-0 flex h-3 w-3">
+                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+            </span>
+            <span class="w-5 h-5 flex items-center justify-center text-sm font-bold">✨</span>
+            <span class="text-xs font-extrabold tracking-wide hidden sm:inline">Konselor AI</span>
+        </button>
+    </div>
+
+    <!-- OVERLAY DIALOG CUSTOM ALERT -->
+    <div id="custom-alert-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-[90] transition-all duration-300">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl text-center flex flex-col items-center">
+            <div id="alert-icon-container" class="w-12 h-12 rounded-full flex items-center justify-center mb-3">
+                <!-- Diisi via JS -->
+            </div>
+            <h4 id="alert-title" class="text-sm font-extrabold text-slate-800">Judul Pesan</h4>
+            <p id="alert-message" class="text-[11px] text-slate-500 mt-2 leading-relaxed">Isi pesan informasi dialog</p>
+            <button onclick="tutupCustomAlert()" class="mt-4 w-full bg-slate-900 hover:bg-slate-800 text-white py-2 rounded-xl text-xs font-bold transition">Tutup</button>
+        </div>
+    </div>
+
+    <!-- OVERLAY DIALOG CUSTOM CONFIRM -->
+    <div id="custom-confirm-modal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm hidden flex items-center justify-center p-4 z-[90] transition-all duration-300">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl text-center flex flex-col items-center">
+            <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+            </div>
+            <h4 id="confirm-title" class="text-sm font-extrabold text-slate-800">Apakah Anda Yakin?</h4>
+            <p id="confirm-message" class="text-[11px] text-slate-500 mt-2 leading-relaxed">Tindakan ini tidak dapat dibatalkan.</p>
+            <div class="flex space-x-3 w-full mt-4">
+                <button onclick="tutupCustomConfirm(false)" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-600 py-2 rounded-xl text-xs font-bold transition">Batal</button>
+                <button onclick="tutupCustomConfirm(true)" class="w-1/2 bg-red-600 hover:bg-red-700 text-white py-2 rounded-xl text-xs font-bold transition">Lanjutkan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIKA JAVASCRIPT UTAMA -->
+    <script>
+        const SANDI_ADMIN = "adminmaria";
+
+        // --- DATA DEFAULT SEBELUM DILAKUKAN KUSTOMISASI ---
+        const configDefault = {
+            logoType: "text",
+            logoVal: "MA",
+            logoImg: "",
+            navTitle: "SMP MARIA ASSUMPTA KLATEN",
+            navSubtitle: "School of Future Leaders",
+            heroTitle: "Pendaftaran Kegiatan Ekstrakurikuler",
+            heroDesc: "Persiapkan potensimu sejak dini. Cari minatmu, tentukan bakatmu, dan daftarkan diri secara langsung ke form pilihanmu.",
+            bgType: "gradient",
+            bgColor1: "#0f172a",
+            bgColor2: "#1e1b4b",
+            bgImg: "",
+            heroImgSource: "url",
+            heroImgUrl: "https://placehold.co/600x320/0f172a/38bdf8?text=SMP+Maria+Assumpta+Klaten",
+            heroImgData: "",
+            heroImgScale: "1.0",
+            heroImgYpos: "0",
+            heroImgOpacity: "1.0",
+            geminiApiKey: ""
+        };
+
+        const listDefaultEkskul = [
+            { id: 1, nama: "Pramuka (Wajib)", deskripsi: "Membentuk kepribadian mandiri, disiplin, peduli lingkungan, dan menumbuhkan karakter kepemimpinan yang tangguh bagi seluruh siswa.", link: "https://forms.gle/contohPramuka", kuota: 150 },
+            { id: 2, nama: "Ansambel Musik", deskripsi: "Wadah menyalurkan kreativitas seni musik melalui perpaduan instrumen pianika, rekorder, biola, gitar, dan alat perkusi.", link: "https://forms.gle/contohMusik", kuota: 30 },
+            { id: 3, nama: "Bola Basket", deskripsi: "Latihan fisik intensif, pengembangan teknik penguasaan bola dasar, kerja sama taktis, dan pengasahan mental bertanding.", link: "https://forms.gle/contohBasket", kuota: 25 },
+            { id: 4, nama: "Paduan Suara", deskripsi: "Pelatihan vokal, teknik pernapasan, pembagian suara, keharmonisan nada, serta pembawaan karakter lagu rohani & daerah.", link: "https://forms.gle/contohPadus", kuota: 40 },
+            { id: 5, nama: "Informatika & Robotik", deskripsi: "Eksplorasi literasi digital, pemrograman game dasar menggunakan Scratch, logika matematika, serta perakitan kit robot sederhana.", link: "https://forms.gle/contohInfo", kuota: 20 }
+        ];
+
+        // --- SISTEM MEMORI STORAGE LOCAL ---
+        let databaseEkskul = JSON.parse(localStorage.getItem('ma_db_ekskul')) || listDefaultEkskul;
+        let databasePendaftar = JSON.parse(localStorage.getItem('ma_db_pendaftar')) || [];
+        let configWeb = JSON.parse(localStorage.getItem('ma_db_config')) || configDefault;
+
+        // Ambil token / data dari memori sementara
+        let isUserAdmin = sessionStorage.getItem('ma_auth_admin') === 'true';
+
+        // --- UTILITIES CUSTOM DIALOGS ---
+        let callbackKonfirmasiConfirm = null;
+
+        function showCustomAlert(title, message, isError = false) {
+            document.getElementById('alert-title').innerText = title;
+            document.getElementById('alert-message').innerText = message;
+            
+            const containerIcon = document.getElementById('alert-icon-container');
+            if (isError) {
+                containerIcon.className = "w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mb-3";
+                containerIcon.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                    </svg>
+                `;
+            } else {
+                containerIcon.className = "w-12 h-12 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-3";
+                containerIcon.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                    </svg>
+                `;
+            }
+            document.getElementById('custom-alert-modal').classList.remove('hidden');
+        }
+
+        function tutupCustomAlert() {
+            document.getElementById('custom-alert-modal').classList.add('hidden');
+        }
+
+        function showCustomConfirm(title, message, onConfirm) {
+            document.getElementById('confirm-title').innerText = title;
+            document.getElementById('confirm-message').innerText = message;
+            callbackKonfirmasiConfirm = onConfirm;
+            document.getElementById('custom-confirm-modal').classList.remove('hidden');
+        }
+
+        function tutupCustomConfirm(isAgreed) {
+            document.getElementById('custom-confirm-modal').classList.add('hidden');
+            if (isAgreed && typeof callbackKonfirmasiConfirm === 'function') {
+                callbackKonfirmasiConfirm();
+            }
+            callbackKonfirmasiConfirm = null;
+        }
+
+        // --- SISTEM AKTIFASI DESAIN DAN TEMA ---
+        function renderTampilanLatar() {
+            // Background Body
+            const wrapper = document.getElementById('body-wrapper');
+            const hero = document.getElementById('hero-banner');
+            const heroImage = document.getElementById('hero-image-layer');
+
+            // Seting logo, nav title & subtitle
+            document.getElementById('logo-badge').innerText = configWeb.logoVal;
+            document.getElementById('nav-title-text').innerText = configWeb.navTitle;
+            document.getElementById('nav-subtitle-text').innerText = configWeb.navSubtitle;
+
+            // Seting Hero Text
+            document.getElementById('hero-title-text').innerText = configWeb.heroTitle;
+            document.getElementById('hero-desc-text').innerText = configWeb.heroDesc;
+            document.getElementById('footer-branding-text').innerText = `© 2026 ${configWeb.navTitle.toUpperCase()}`;
+
+            // Seting Background Tipe
+            if (configWeb.bgType === 'solid') {
+                hero.style.background = configWeb.bgColor1;
+            } else {
+                hero.style.background = `linear-gradient(135deg, ${configWeb.bgColor1}, ${configWeb.bgColor2})`;
+            }
+
+            // Seting Visual Image Hero Layer
+            let imgSourceToApply = "";
+            if (configWeb.heroImgSource === 'url') {
+                imgSourceToApply = configWeb.heroImgUrl;
+            } else {
+                imgSourceToApply = configWeb.heroImgData;
+            }
+
+            if (imgSourceToApply && imgSourceToApply.trim() !== "") {
+                heroImage.style.backgroundImage = `url('${imgSourceToApply}')`;
+                heroImage.style.opacity = configWeb.heroImgOpacity || "1.0";
+                heroImage.style.transform = `scale(${configWeb.heroImgScale || '1.0'}) translateY(${configWeb.heroImgYpos || '0'}px)`;
+            } else {
+                heroImage.style.backgroundImage = "none";
+                heroImage.style.opacity = "0";
+            }
+        }
+
+        // --- OPERASI CRUD KELOLA EKSKUL ---
+        function hitungPendaftar(namaEkskul) {
+            return databasePendaftar.filter(p => p.ekskul === namaEkskul).length;
+        }
+
+        function renderDaftarEkskul() {
+            const containerSiswa = document.getElementById('ekskul-container');
+            const containerAdmin = document.getElementById('admin-ekskul-list');
+            const emptyState = document.getElementById('empty-state');
+            const totalStat = document.getElementById('stat-total');
+
+            containerSiswa.innerHTML = '';
+            containerAdmin.innerHTML = '';
+            totalStat.innerText = databaseEkskul.length;
+
+            if (databaseEkskul.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            databaseEkskul.forEach(item => {
+                const jumlahPendaftar = hitungPendaftar(item.nama);
+                const batasKuota = item.kuota || 0;
+                let kuotaBadge = "";
+                let buttonDisabled = "";
+                let buttonText = "Pilih Ekstra";
+                let buttonClass = "w-full flex items-center justify-center bg-blue-950 hover:bg-blue-900 group-hover:bg-blue-900 text-white font-extrabold py-3 px-4 rounded-2xl text-xs tracking-wide transition shadow-sm hover:shadow group-hover:translate-x-1.5 space-x-2 duration-200";
+
+                if (batasKuota > 0) {
+                    const sisa = batasKuota - jumlahPendaftar;
+                    if (sisa <= 0) {
+                        kuotaBadge = `<span class="bg-red-50 text-red-700 text-[10px] font-black px-2.5 py-1 rounded-full border border-red-200">Kuota Penuh (${jumlahPendaftar}/${batasKuota})</span>`;
+                        buttonDisabled = "disabled";
+                        buttonText = "Kuota Penuh";
+                        buttonClass = "w-full flex items-center justify-center bg-slate-300 text-slate-500 font-extrabold py-3 px-4 rounded-2xl text-xs tracking-wide cursor-not-allowed space-x-2";
+                    } else {
+                        kuotaBadge = `<span class="bg-green-50 text-green-700 text-[10px] font-bold px-2.5 py-1 rounded-full border border-green-200">Terisi: ${jumlahPendaftar}/${batasKuota} (Sisa ${sisa})</span>`;
+                    }
+                } else {
+                    kuotaBadge = `<span class="bg-blue-50 text-blue-700 text-[10px] font-semibold px-2.5 py-1 rounded-full border border-blue-200">Kuota: Bebas</span>`;
+                }
+
+                // Tampilan untuk Siswa
+                containerSiswa.innerHTML += `
+                    <div class="bg-white rounded-3xl p-6 border border-slate-100 hover:border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-4">
+                                <div class="flex items-center space-x-2.5">
+                                    <span class="w-2.5 h-2.5 bg-blue-600 rounded-full group-hover:scale-125 transition-transform"></span>
+                                    <h4 class="text-sm font-bold text-slate-800 tracking-tight leading-tight uppercase group-hover:text-blue-900 transition-colors">${item.nama}</h4>
+                                </div>
+                                ${kuotaBadge}
+                            </div>
+                            <p class="text-slate-500 text-[11px] leading-relaxed mb-6 font-medium">${item.deskripsi}</p>
+                        </div>
+                        <button onclick="bukaValidasiPendaftaran(${item.id})" ${buttonDisabled} class="${buttonClass}">
+                            <span>${buttonText}</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </button>
+                    </div>
+                `;
+
+                // Tampilan untuk kelola list di admin
+                const pendaftarText = item.kuota ? `${jumlahPendaftar}/${item.kuota}` : `${jumlahPendaftar}/∞`;
+                containerAdmin.innerHTML += `
+                    <div class="bg-white border border-slate-200 p-3.5 rounded-xl flex flex-col sm:flex-row justify-between sm:items-center gap-2 hover:bg-slate-50 transition">
+                        <div class="max-w-md overflow-hidden">
+                            <span class="font-bold text-slate-800 text-xs block leading-tight truncate uppercase">${item.nama} <span class="text-blue-600 font-extrabold ml-1.5">(Pendaftar: ${pendaftarText})</span></span>
+                            <span class="text-[10px] text-blue-600 font-mono block leading-none mt-1 truncate select-all">${item.link}</span>
+                        </div>
+                        <div class="flex space-x-1.5 shrink-0 justify-end">
+                            <button onclick="siapkanEditEkskul(${item.id})" class="bg-blue-50 hover:bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-blue-100 transition">Edit</button>
+                            <button onclick="hapusEkskul(${item.id})" class="bg-red-50 hover:bg-red-100 text-red-600 px-3 py-1.5 rounded-lg text-[10px] font-bold border border-red-100 transition">Hapus</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            localStorage.setItem('ma_db_ekskul', JSON.stringify(databaseEkskul));
+        }
+
+        function simpanEkskul() {
+            const idEdit = document.getElementById('edit-id').value;
+            const nama = document.getElementById('input-nama').value.trim();
+            const link = document.getElementById('input-link').value.trim();
+            const kuota = parseInt(document.getElementById('input-kuota').value) || 0;
+            const deskripsi = document.getElementById('input-deskripsi').value.trim();
+
+            if (!nama || !link) {
+                showCustomAlert('Lengkapi Formulir', 'Nama ekskul dan Link Google Form wajib diisi agar sistem berfungsi.', true);
+                return;
+            }
+
+            if (idEdit) {
+                // Proses Update
+                databaseEkskul = databaseEkskul.map(item => {
+                    if (item.id == idEdit) {
+                        return { ...item, nama, link, kuota, deskripsi: deskripsi || 'Tidak ada deskripsi.' };
+                    }
+                    return item;
+                });
+                showCustomAlert('Ekskul Diperbarui', `Data ekstrakurikuler "${nama}" berhasil diupdate.`);
+            } else {
+                // Tambah Baru
+                databaseEkskul.push({
+                    id: Date.now(),
+                    nama: nama,
+                    link: link,
+                    kuota: kuota,
+                    deskripsi: deskripsi || 'Tidak ada deskripsi.'
+                });
+                showCustomAlert('Ekskul Ditambahkan', `Ekstrakurikuler "${nama}" telah berhasil diaktifkan di halaman utama.`);
+            }
+
+            renderDaftarEkskul();
+            resetEkskulForm();
+        }
+
+        function siapkanEditEkskul(id) {
+            const item = databaseEkskul.find(e => e.id === id);
+            if (item) {
+                document.getElementById('edit-id').value = item.id;
+                document.getElementById('input-nama').value = item.nama;
+                document.getElementById('input-link').value = item.link;
+                document.getElementById('input-kuota').value = item.kuota || 0;
+                document.getElementById('input-deskripsi').value = item.deskripsi;
+
+                document.getElementById('ekskul-form-mode').innerText = "Mode Edit Ekstrakurikuler";
+                document.getElementById('btn-cancel-edit').classList.remove('hidden');
+                document.getElementById('btn-simpan-ekskul').innerText = "Simpan Perubahan";
+                document.getElementById('btn-simpan-ekskul').className = "w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-xl text-xs font-bold transition shadow-sm flex items-center justify-center space-x-2";
+            }
+        }
+
+        function resetEkskulForm() {
+            document.getElementById('edit-id').value = '';
+            document.getElementById('input-nama').value = '';
+            document.getElementById('input-link').value = '';
+            document.getElementById('input-kuota').value = '';
+            document.getElementById('input-deskripsi').value = '';
+
+            document.getElementById('ekskul-form-mode').innerText = "Tambah Ekstrakurikuler Baru";
+            document.getElementById('btn-cancel-edit').classList.add('hidden');
+            document.getElementById('btn-simpan-ekskul').innerText = "Simpan Ekskul";
+            document.getElementById('btn-simpan-ekskul').className = "w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-xl text-xs font-bold transition shadow-sm flex items-center justify-center space-x-2";
+        }
+
+        function hapusEkskul(id) {
+            const item = databaseEkskul.find(e => e.id === id);
+            if (!item) return;
+
+            showCustomConfirm('Hapus Ekstrakurikuler', `Apakah Anda yakin ingin menghapus "${item.nama}" dari daftar pilihan siswa?`, () => {
+                databaseEkskul = databaseEkskul.filter(e => e.id !== id);
+                renderDaftarEkskul();
+                if (document.getElementById('edit-id').value == id) {
+                    resetEkskulForm();
+                }
+                showCustomAlert('Terhapus', `Ekstrakurikuler "${item.nama}" berhasil dihapus.`);
+            });
+        }
+
+        // --- SISTEM PEMILIHAN SISWA & FORM VALIDASI ---
+        let ekskulPilihanSiswa = null;
+
+        function bukaValidasiPendaftaran(id) {
+            ekskulPilihanSiswa = databaseEkskul.find(e => e.id === id);
+            if (ekskulPilihanSiswa) {
+                document.getElementById('siswa-ekskul').value = ekskulPilihanSiswa.nama;
+                document.getElementById('siswa-nama').value = '';
+                document.getElementById('siswa-kelas').value = '';
+
+                document.getElementById('identitas-modal').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('identitas-modal-card').classList.remove('scale-95', 'opacity-0');
+                    document.getElementById('siswa-nama').focus();
+                }, 10);
+            }
+        }
+
+        function tutupIdentitasModal() {
+            const card = document.getElementById('identitas-modal-card');
+            card.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                document.getElementById('identitas-modal').classList.add('hidden');
+                ekskulPilihanSiswa = null;
+            }, 200);
+        }
+
+        function prosesLanjutGoogleForm() {
+            const nama = document.getElementById('siswa-nama').value.trim();
+            const kelas = document.getElementById('siswa-kelas').value;
+
+            if (!nama || !kelas) {
+                showCustomAlert('Data Tidak Lengkap', 'Mohon isikan nama lengkap dan pilih ruang kelas Anda untuk keperluan sinkronisasi.', true);
+                return;
+            }
+
+            // Validasi sisa kuota kembali di sisi klien sebelum pendaftaran terekam
+            const batasKuota = ekskulPilihanSiswa.kuota || 0;
+            if (batasKuota > 0) {
+                const jumlahPendaftar = hitungPendaftar(ekskulPilihanSiswa.nama);
+                if (jumlahPendaftar >= batasKuota) {
+                    showCustomAlert('Kuota Penuh', `Mohon maaf, kuota pendaftar untuk ekstrakurikuler "${ekskulPilihanSiswa.nama}" baru saja terpenuhi secara penuh.`, true);
+                    tutupIdentitasModal();
+                    renderDaftarEkskul();
+                    return;
+                }
+            }
+
+            // Simpan log pendaftar
+            const timestamp = new Date().toLocaleString('id-ID', { hour12: false });
+            const logPendaftar = {
+                id: Date.now(),
+                waktu: timestamp,
+                nama: nama,
+                kelas: kelas,
+                ekskul: ekskulPilihanSiswa.nama
+            };
+
+            databasePendaftar.unshift(logPendaftar);
+            localStorage.setItem('ma_db_pendaftar', JSON.stringify(databasePendaftar));
+
+            tutupIdentitasModal();
+            renderDaftarEkskul(); // Memperbarui tampilan badge sisa kuota secara instan
+
+            // Sampaikan dialog konfirmasi pengalihan link
+            showCustomAlert('Pendaftaran Valid', `Halo ${nama} (${kelas}), Anda akan diarahkan langsung ke Google Form untuk menyelesaikan pengisian berkas.`);
+            
+            // Buka link formulir pendaftaran asli di tab baru setelah alert ditutup
+            setTimeout(() => {
+                window.open(ekskulPilihanSiswa.link, '_blank');
+            }, 1000);
+        }
+
+        // --- PENGATURAN BRANDING DAN WARNA ---
+        function toggleBackgroundInputs() {
+            const val = document.getElementById('brand-bg-type').value;
+            const p2 = document.getElementById('col-picker-2');
+            if (val === 'solid') {
+                p2.classList.add('hidden');
+            } else {
+                p2.classList.remove('hidden');
+            }
+        }
+
+        function initFormBranding() {
+            document.getElementById('brand-logo').value = configWeb.logoVal;
+            document.getElementById('brand-title').value = configWeb.navTitle;
+            document.getElementById('brand-subtitle').value = configWeb.navSubtitle;
+            document.getElementById('brand-hero-title').value = configWeb.heroTitle;
+            document.getElementById('brand-hero-desc').value = configWeb.heroDesc;
+
+            document.getElementById('brand-bg-type').value = configWeb.bgType;
+            document.getElementById('brand-color-1').value = configWeb.bgColor1;
+            document.getElementById('brand-color-1-hex').value = configWeb.bgColor1;
+            document.getElementById('brand-color-2').value = configWeb.bgColor2;
+            document.getElementById('brand-color-2-hex').value = configWeb.bgColor2;
+
+            document.getElementById('hero-img-url').value = configWeb.heroImgUrl;
+            document.getElementById('slider-scale').value = configWeb.heroImgScale;
+            document.getElementById('slider-ypos').value = configWeb.heroImgYpos;
+            document.getElementById('slider-opacity').value = configWeb.heroImgOpacity;
+
+            document.getElementById('val-scale').innerText = configWeb.heroImgScale;
+            document.getElementById('val-ypos').innerText = `${configWeb.heroImgYpos}px`;
+            document.getElementById('val-opacity').innerText = configWeb.heroImgOpacity;
+
+            toggleBackgroundInputs();
+        }
+
+        // Sinkronisasi input hex warna & color picker
+        document.getElementById('brand-color-1').addEventListener('input', (e) => {
+            document.getElementById('brand-color-1-hex').value = e.target.value.toUpperCase();
+        });
+        document.getElementById('brand-color-2').addEventListener('input', (e) => {
+            document.getElementById('brand-color-2-hex').value = e.target.value.toUpperCase();
+        });
+
+        // Event listener tuning slider gambar hero
+        document.getElementById('slider-scale').addEventListener('input', (e) => {
+            document.getElementById('val-scale').innerText = e.target.value;
+            configWeb.heroImgScale = e.target.value;
+            renderTampilanLatar();
+        });
+        document.getElementById('slider-ypos').addEventListener('input', (e) => {
+            document.getElementById('val-ypos').innerText = `${e.target.value}px`;
+            configWeb.heroImgYpos = e.target.value;
+            renderTampilanLatar();
+        });
+        document.getElementById('slider-opacity').addEventListener('input', (e) => {
+            document.getElementById('val-opacity').innerText = e.target.value;
+            configWeb.heroImgOpacity = e.target.value;
+            renderTampilanLatar();
+        });
+
+        function tanganiUploadGambarHero(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                configWeb.heroImgSource = "data";
+                configWeb.heroImgData = e.target.result;
+                renderTampilanLatar();
+                showCustomAlert('Berhasil Diunggah', 'Gambar latar lokal telah sukses dimuat ke memori browser.');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function simpanBrandingDesain() {
+            configWeb.logoVal = document.getElementById('brand-logo').value.trim() || "MA";
+            configWeb.navTitle = document.getElementById('brand-title').value.trim() || "SMP MARIA ASSUMPTA KLATEN";
+            configWeb.navSubtitle = document.getElementById('brand-subtitle').value.trim() || "School of Future Leaders";
+            configWeb.heroTitle = document.getElementById('brand-hero-title').value.trim() || "Pendaftaran Kegiatan Ekstrakurikuler";
+            configWeb.heroDesc = document.getElementById('brand-hero-desc').value.trim() || "Persiapkan potensimu sejak dini.";
+
+            configWeb.bgType = document.getElementById('brand-bg-type').value;
+            configWeb.bgColor1 = document.getElementById('brand-color-1-hex').value.trim() || "#0f172a";
+            configWeb.bgColor2 = document.getElementById('brand-color-2-hex').value.trim() || "#1e1b4b";
+
+            const customUrl = document.getElementById('hero-img-url').value.trim();
+            if (customUrl) {
+                configWeb.heroImgSource = "url";
+                configWeb.heroImgUrl = customUrl;
+            }
+
+            localStorage.setItem('ma_db_config', JSON.stringify(configWeb));
+            renderTampilanLatar();
+            showCustomAlert('Desain Disimpan', 'Seluruh konfigurasi warna, logo, dan branding tampilan utama berhasil dipublikasikan secara instan.');
+        }
+
+        // --- SISTEM DATABASE PENDAFTAR SISWA ---
+        function renderDatabasePendaftar() {
+            const tbody = document.getElementById('pendaftar-table-body');
+            document.getElementById('pendaftar-count').innerText = databasePendaftar.length;
+            tbody.innerHTML = '';
+
+            if (databasePendaftar.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="p-6 text-center text-slate-400 font-medium italic">Belum ada aktivitas pendaftaran siswa yang direkam di browser ini.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            databasePendaftar.forEach(item => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-50 border-b border-slate-100 transition">
+                        <td class="p-3 text-slate-400 font-mono text-[10px] whitespace-nowrap">${item.waktu}</td>
+                        <td class="p-3 font-bold text-slate-800 text-[11px]">${item.nama}</td>
+                        <td class="p-3 font-black text-blue-600 text-[11px]">${item.kelas}</td>
+                        <td class="p-3 text-slate-700 text-[11px] uppercase font-bold">${item.ekskul}</td>
+                        <td class="p-3 text-center">
+                            <button onclick="hapusSatuPendaftar(${item.id})" class="text-red-500 hover:text-red-700 hover:bg-red-50 p-1.5 rounded-lg transition font-bold text-[10px]">Hapus</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function hapusSatuPendaftar(id) {
+            showCustomConfirm('Hapus Log Pendaftaran', 'Apakah Anda ingin menghapus baris riwayat ini dari log admin?', () => {
+                databasePendaftar = databasePendaftar.filter(item => item.id !== id);
+                localStorage.setItem('ma_db_pendaftar', JSON.stringify(databasePendaftar));
+                renderDatabasePendaftar();
+                renderDaftarEkskul(); // Sync kuota
+                showCustomAlert('Terhapus', 'Baris riwayat log berhasil dibersihkan.');
+            });
+        }
+
+        function hapusSemuaPendaftar() {
+            if (databasePendaftar.length === 0) return;
+            showCustomConfirm('Reset Semua Data', 'Semua riwayat pendaftar yang tersimpan di browser ini akan dihapus permanen. Lanjutkan?', () => {
+                databasePendaftar = [];
+                localStorage.setItem('ma_db_pendaftar', JSON.stringify(databasePendaftar));
+                renderDatabasePendaftar();
+                renderDaftarEkskul(); // Sync kuota
+                showCustomAlert('Database Kosong', 'Semua log riwayat telah dibersihkan secara total.');
+            });
+        }
+
+        function unduhRekapCSV() {
+            if (databasePendaftar.length === 0) {
+                showCustomAlert("Unduh Rekap", "Belum ada data pendaftar untuk diunduh.", true);
+                return;
+            }
+            // Tambahkan BOM untuk excel indonesia
+            let csvContent = "\uFEFFWaktu Pendaftaran,Nama Siswa,Kelas,Ekskul Pilihan\n";
+            databasePendaftar.forEach(p => {
+                csvContent += `"${p.waktu}","${p.nama}","${p.kelas}","${p.ekskul}"\n`;
+            });
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.setAttribute("href", url);
+            link.setAttribute("download", `rekap_pendaftar_ekskul_ma_${new Date().toISOString().slice(0,10)}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // --- PENGATURAN API KEY DAN MODAL ADMIN CONTROLS ---
+        function simpanApiKey() {
+            const key = document.getElementById('cfg-api-key').value.trim();
+            configWeb.geminiApiKey = key;
+            localStorage.setItem('ma_db_config', JSON.stringify(configWeb));
+            showCustomAlert('Kunci API Disimpan', 'Pengaturan konektivitas asisten AI berhasil diperbarui.');
+        }
+
+        function bukaPanelAdmin() {
+            if (isUserAdmin) {
+                initFormBranding();
+                renderDatabasePendaftar();
+                document.getElementById('admin-panel-modal').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('admin-panel-card').classList.remove('scale-95', 'opacity-0');
+                }, 10);
+            } else {
+                document.getElementById('auth-modal').classList.remove('hidden');
+                setTimeout(() => {
+                    document.getElementById('auth-modal-card').classList.remove('scale-95', 'opacity-0');
+                    document.getElementById('admin-password').value = '';
+                    document.getElementById('admin-password').focus();
+                }, 10);
+            }
+        }
+
+        function tutupAuthModal() {
+            const card = document.getElementById('auth-modal-card');
+            card.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                document.getElementById('auth-modal').classList.add('hidden');
+            }, 200);
+        }
+
+        function verifikasiSandi() {
+            const sandi = document.getElementById('admin-password').value;
+            if (sandi === SANDI_ADMIN) {
+                isUserAdmin = true;
+                sessionStorage.setItem('ma_auth_admin', 'true');
+                tutupAuthModal();
+                setTimeout(() => {
+                    bukaPanelAdmin();
+                }, 250);
+            } else {
+                showCustomAlert('Sandi Salah', 'Akses ditolak. Silakan masukkan kata sandi yang valid.', true);
+            }
+        }
+
+        function tutupPanelAdmin() {
+            const card = document.getElementById('admin-panel-card');
+            card.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                document.getElementById('admin-panel-modal').classList.add('hidden');
+            }, 200);
+        }
+
+        function pindahTabAdmin(tabId) {
+            const tabs = ['ekskul', 'branding', 'pendaftar', 'api-key'];
+            tabs.forEach(t => {
+                const btn = document.getElementById(`tab-${t}`);
+                const content = document.getElementById(`tab-content-${t}`);
+                if (t === tabId) {
+                    btn.className = "tab-btn-active w-full text-left py-2 px-3 rounded-xl text-[11px] font-bold transition flex items-center space-x-2 shrink-0 bg-blue-50 text-blue-700 shadow-sm border border-blue-100";
+                    content.classList.remove('hidden');
+                } else {
+                    btn.className = "tab-btn-inactive w-full text-left py-2 px-3 rounded-xl text-[11px] font-bold transition flex items-center space-x-2 shrink-0 text-slate-500 hover:text-slate-800 hover:bg-slate-50";
+                    content.classList.add('hidden');
+                }
+            });
+
+            // Judul Panel dinamis
+            const titles = {
+                'ekskul': 'Kelola Data Ekskul Utama',
+                'branding': 'Pengaturan Desain, Latar & Branding',
+                'pendaftar': 'Database Rekap Klik Pendaftar',
+                'api-key': 'Konektivitas Model Bahasa Gemini AI'
+            };
+            document.getElementById('admin-title-panel').innerText = titles[tabId];
+
+            if (tabId === 'pendaftar') {
+                renderDatabasePendaftar();
+            }
+        }
+
+        // --- CHATBOT WIDGET DAN GEMINI AI SYSTEM ---
+        let chatBuka = false;
+
+        function toggleChatbot() {
+            const windowEl = document.getElementById('chat-window');
+            if (chatBuka) {
+                windowEl.classList.add('scale-95', 'opacity-0');
+                setTimeout(() => {
+                    windowEl.classList.add('hidden');
+                }, 200);
+            } else {
+                windowEl.classList.remove('hidden');
+                setTimeout(() => {
+                    windowEl.classList.remove('scale-95', 'opacity-0');
+                    document.getElementById('chat-input').focus();
+                }, 10);
+            }
+            chatBuka = !chatBuka;
+        }
+
+        function tanganiEnterChat(event) {
+            if (event.key === 'Enter') {
+                kirimPesanChat();
+            }
+        }
+
+        async function panggilGeminiAI(promptUser, systemInstruction) {
+            const key = configWeb.geminiApiKey || ""; // Canvas otomatis menyediakan key jika kosong
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${key}`;
+            
+            const payload = {
+                contents: [{ parts: [{ text: promptUser }] }],
+                systemInstruction: {
+                    parts: [{ text: systemInstruction }]
+                }
+            };
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) throw new Error("Gagal mengambil respon dari server AI.");
+                const data = await response.json();
+                return data.candidates?.[0]?.content?.parts?.[0]?.text || "Maaf, AI sedang beristirahat.";
+            } catch (e) {
+                console.error(e);
+                return "Maaf, terjadi gangguan koneksi untuk asisten AI.";
+            }
+        }
+
+        async function kirimPesanChat() {
+            const input = document.getElementById('chat-input');
+            const teks = input.value.trim();
+            if (!teks) return;
+
+            const chatMessages = document.getElementById('chat-messages');
+            
+            // Tambah balon chat user
+            chatMessages.innerHTML += `
+                <div class="flex flex-col items-end w-full">
+                    <div class="max-w-[85%] bg-blue-900 text-white p-3 rounded-2xl rounded-tr-none text-slate-700 shadow-sm font-semibold">
+                        ${teks}
+                    </div>
+                </div>
+            `;
+            input.value = '';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Efek mengetik AI
+            const loadingId = "ai-loading-" + Date.now();
+            chatMessages.innerHTML += `
+                <div id="${loadingId}" class="flex flex-col items-start max-w-[85%] bg-white border border-slate-100 p-3 rounded-2xl rounded-tl-none text-slate-400 italic shadow-sm">
+                    AI sedang berpikir dan menganalisis minatmu...
+                </div>
+            `;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // Context daftar ekskul aktif untuk asisten konselor
+            const daftarNamaEkskul = databaseEkskul.map(e => `${e.nama} (${e.deskripsi})`).join(', ');
+            const systemPrompt = `Anda adalah asisten konseling pemilihan ekstrakurikuler yang ramah dan suportif di sekolah SMP Maria Assumpta Klaten. 
+            Tugas Anda adalah mendengarkan hobi, bakat, kegemaran, ataupun keluh kesah siswa, kemudian menganalisis dan merekomendasikan salah satu atau beberapa ekstrakurikuler dari daftar yang sedang aktif saat ini.
+            Daftar ekstrakurikuler yang aktif saat ini di sekolah adalah: [ ${daftarNamaEkskul} ]. 
+            SANGAT PENTING: Anda dilarang keras merekomendasikan ekstrakurikuler di luar daftar aktif di atas. Berikan saran dengan nada bahasa yang bersahabat, memotivasi, dan singkat (maksimal 2 paragraf).`;
+
+            const responAI = await panggilGeminiAI(teks, systemPrompt);
+            
+            // Hapus loader dan gantikan dengan jawaban
+            const loader = document.getElementById(loadingId);
+            if (loader) loader.remove();
+
+            chatMessages.innerHTML += `
+                <div class="flex flex-col items-start max-w-[85%] bg-white border border-slate-100 p-3 rounded-2xl rounded-tl-none text-slate-700 shadow-sm">
+                    ${responAI}
+                </div>
+            `;
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // --- DESKRIPSI DAN COPYWRITING GENERATOR VIA AI ---
+        async function buatDeskripsiDenganAI() {
+            const nama = document.getElementById('input-nama').value.trim();
+            if (!nama) {
+                showCustomAlert('Lengkapi Nama Ekskul', 'Harap masukkan nama ekstrakurikuler terlebih dahulu agar AI memahami kegiatannya.', true);
+                return;
+            }
+
+            const btn = document.querySelector('button[onclick="buatDeskripsiDenganAI()"]');
+            const textAwal = btn.innerHTML;
+            btn.innerHTML = "<span>Generating...</span>";
+            btn.disabled = true;
+
+            const systemPrompt = "Anda adalah penulis konten profesional untuk promosi sekolah. Tuliskan deskripsi persuasif, menarik, dan singkat (maksimal 2 kalimat, maksimal 25 kata) untuk ekstrakurikuler sekolah baru ini. Gaya bahasa harus bersemangat dan mengundang minat siswa.";
+            const hasil = await panggilGeminiAI(`Buatkan deskripsi promosi menarik untuk ekskul bernama: "${nama}"`, systemPrompt);
+
+            document.getElementById('input-deskripsi').value = hasil;
+            btn.innerHTML = textAwal;
+            btn.disabled = false;
+        }
+
+        async function buatSloganDenganAI() {
+            const namaSekolah = document.getElementById('brand-title').value || "SMP Maria Assumpta";
+            
+            const btn = document.querySelector('button[onclick="buatSloganDenganAI()"]');
+            const textAwal = btn.innerHTML;
+            btn.innerHTML = "<span>Generating...</span>";
+            btn.disabled = true;
+
+            const systemPrompt = "Anda adalah desainer copywriting sekolah. Buatkan judul banner utama (hero headline) bertema pendaftaran ekskul yang inspiratif dan berwibawa, serta sub-deskripsinya.";
+            const respon = await panggilGeminiAI(`Buat headline dan deskripsi pendaftaran ekskul untuk sekolah: "${namaSekolah}" dalam format JSON sederhana {"headline": "...", "deskripsi": "..."}`, systemPrompt);
+            
+            try {
+                // Bersihkan respon barangkali ada tag md ```json
+                const bersih = respon.replace(/```json/g, '').replace(/```/g, '').trim();
+                const parse = JSON.parse(bersih);
+                if (parse.headline) document.getElementById('brand-hero-title').value = parse.headline;
+                if (parse.deskripsi) document.getElementById('brand-hero-desc').value = parse.deskripsi;
+                showCustomAlert('Berhasil Membuat', 'Karya tulisan banner AI berhasil dimuat pada formulir.');
+            } catch (e) {
+                // Fallback jika tidak berupa JSON valid
+                document.getElementById('brand-hero-title').value = "Mari Kembangkan Bakat Emasmu!";
+                document.getElementById('brand-hero-desc').value = respon;
+            }
+
+            btn.innerHTML = textAwal;
+            btn.disabled = false;
+        }
+
+        async function analisisTrenDenganAI() {
+            if (databasePendaftar.length === 0) {
+                showCustomAlert('Database Kosong', 'Harus ada data pendaftar terlebih dahulu agar AI bisa membaca tren.', true);
+                return;
+            }
+
+            const summary = databasePendaftar.map(p => `${p.kelas}: ${p.ekskul}`).join('\n');
+            
+            showCustomAlert('Memproses Analisis', 'AI Gemini sedang membaca data pendaftar dan meramu laporan ringkas untuk Anda...');
+
+            const systemPrompt = "Anda adalah konsultan pendidikan dan analis data sekolah. Analisis tren minat siswa berdasarkan log pendaftaran mentah yang diberikan. Deteksi ekskul paling populer, analisis preferensi jenjang kelas jika terlihat, serta berikan saran promosi strategis. Tulis secara poin-poin terstruktur maksimal 3 poin singkat.";
+            const laporan = await panggilGeminiAI(`Berikut adalah log klik pendaftar siswa:\n${summary}`, systemPrompt);
+
+            // Tampilkan laporan AI dalam modal kustom alert
+            showCustomAlert('Analisis Tren Pendaftar (AI)', laporan);
+        }
+
+        // --- INISIALISASI HALAMAN PERTAMA KALI ---
+        window.onload = function() {
+            renderTampilanLatar();
+            renderDaftarEkskul();
+        }
+    </script>
+</body>
+</html>
